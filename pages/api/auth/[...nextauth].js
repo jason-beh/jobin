@@ -1,8 +1,8 @@
 import NextAuth from 'next-auth';
 import Providers from 'next-auth/providers';
-import {database, app, dbMap} from '../../../utils/firebase';
+import { database, app, dbMap } from '../../../utils/firebase';
 
-import { collection, addDoc, getDoc, setDoc, doc } from "firebase/firestore"; 
+import { collection, addDoc, getDoc, setDoc, doc } from 'firebase/firestore';
 
 export default NextAuth({
   providers: [
@@ -22,12 +22,12 @@ export default NextAuth({
         const docSnap = await getDoc(docRef);
 
         if (!docSnap.exists()) {
-            await setDoc(docRef, {
-                name,
-                email,
-                createdAt: new Date(),
-            })
-          }
+          await setDoc(docRef, {
+            name,
+            email,
+            createdAt: new Date(),
+          });
+        }
 
         return Promise.resolve(true);
       } catch (err) {
@@ -43,9 +43,9 @@ export default NextAuth({
         const docSnap = await getDoc(docRef);
 
         if (docSnap.exists()) {
-            let user = docSnap.data();
-            session.dbUser = user;
-            session.id = user._id
+          let user = docSnap.data();
+          session.dbUser = user;
+          session.id = user._id;
         }
       } catch (err) {
         console.log('Server error');

@@ -8,15 +8,30 @@
     "start": "next start"
   },
   "dependencies": {
+    "@google-cloud/media-translation": "^2.4.0",
+    "@google-cloud/speech": "^4.10.0",
+    "@google-cloud/storage": "^5.18.3",
+    "@google-cloud/translate": "^6.3.1",
+    "@headlessui/react": "^1.5.0",
+    "@heroicons/react": "^1.0.6",
     "@tailwindcss/forms": "^0.3.3",
+    "axios": "^0.26.1",
+    "cloudinary": "^1.29.0",
     "dotenv": "16.0.0",
     "firebase": "^9.6.10",
+    "formik": "^2.2.9",
     "next": "12.1.0",
     "next-auth": "3.27.3",
     "next-connect": "^0.12.2",
+    "node-record-lpcm16": "^1.0.1",
     "react": "17.0.2",
     "react-dom": "17.0.2",
-    "react-firebase-hooks": "^5.0.3"
+    "react-firebase-hooks": "^5.0.3",
+    "react-phone-number-input": "^3.1.49",
+    "react-select": "^5.2.2",
+    "react-video-recorder": "^3.19.1",
+    "styled-components": "^5.3.5",
+    "yup": "^0.32.11"
   },
   "devDependencies": {
     "autoprefixer": "^10.3.1",
