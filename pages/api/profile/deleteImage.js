@@ -1,4 +1,4 @@
-import { doc, getDoc, setDoc } from 'firebase/firestore';
+import { doc, setDoc } from 'firebase/firestore';
 import { getSession } from 'next-auth/client';
 import { database, dbMap } from '../../../utils/firebase';
 const cloudinary = require('cloudinary').v2;

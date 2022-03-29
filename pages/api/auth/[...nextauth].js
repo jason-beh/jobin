@@ -1,8 +1,7 @@
+import { doc, getDoc, setDoc } from 'firebase/firestore';
 import NextAuth from 'next-auth';
 import Providers from 'next-auth/providers';
-import { database, app, dbMap } from '../../../utils/firebase';
-
-import { collection, addDoc, getDoc, setDoc, doc } from 'firebase/firestore';
+import { database, dbMap } from '../../../utils/firebase';
 
 export default NextAuth({
   providers: [
