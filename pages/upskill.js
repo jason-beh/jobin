@@ -1,45 +1,11 @@
 import { Menu, Transition } from '@headlessui/react';
 import { XIcon } from '@heroicons/react/outline';
-import { StarIcon, ChevronDownIcon, SearchIcon } from '@heroicons/react/solid';
-import { Fragment, useState } from 'react';
+import { ChevronDownIcon, SearchIcon, StarIcon } from '@heroicons/react/solid';
+import { useSession } from 'next-auth/client';
+import { useRouter } from 'next/router';
+import { Fragment, useEffect, useState } from 'react';
 import Layout from '../components/Layout';
 
-const user = {
-  name: 'Whitney Francis',
-  email: 'whitneyfrancis@example.com',
-  imageUrl:
-    'https://images.unsplash.com/photo-1517365830460-955ce3ccd263?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-};
-const navigation = [
-  { name: 'Dashboard', href: '#', current: true },
-  { name: 'Jobs', href: '#', current: false },
-  { name: 'Applicants', href: '#', current: false },
-  { name: 'Company', href: '#', current: false },
-];
-const userNavigation = [
-  { name: 'Your Profile', href: '#' },
-  { name: 'Settings', href: '#' },
-  { name: 'Sign out', href: '#' },
-];
-const tabs = [
-  { name: 'Applied', href: '#', count: '2', current: false },
-  { name: 'Phone Screening', href: '#', count: '4', current: false },
-  { name: 'Interview', href: '#', count: '6', current: true },
-  { name: 'Offer', href: '#', current: false },
-  { name: 'Disqualified', href: '#', current: false },
-];
-const candidates = [
-  {
-    name: 'Emily Selman',
-    email: 'emilyselman@example.com',
-    imageUrl:
-      'https://images.unsplash.com/photo-1502685104226-ee32379fefbe?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-    applied: 'January 7, 2020',
-    appliedDatetime: '2020-07-01T15:34:56',
-    status: 'Completed phone screening',
-  },
-  // More candidates...
-];
 const publishingOptions = [
   {
     name: 'Published',
@@ -138,140 +104,153 @@ function Banner() {
   );
 }
 
-export default function Example() {
+export default function Upskill() {
   const [selected, setSelected] = useState(publishingOptions[0]);
 
-  return (
-    <Layout>
-      <Banner></Banner>
-      <h1 className="text-3xl font-bold mt-5 mb-10">Upskilling Opportunities</h1>
-      {/* Page heading */}
-      <header className="bg-gray-50 py-8">
-        <div className="max-w-7xl flex flex-col justify-end items-end mx-auto px-4 sm:px-6 lg:px-8 xl:flex xl:items-start xl:justify-start">
-          <div className="flex w-full items-center mb-4 md:max-w-3xl md:mx-auto lg:mx-0 xl:px-0">
-            <div className="w-full">
-              <label htmlFor="search" className="sr-only">
-                Search
-              </label>
-              <div className="relative">
-                <div className="pointer-events-none absolute inset-y-0 left-0 pl-3 flex items-center">
-                  <SearchIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
+  const [session, loading] = useSession();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!loading && !session) {
+      router.push('/login');
+    }
+  }, [loading, session]);
+
+  if (!loading && session) {
+    return (
+      <Layout>
+        <Banner></Banner>
+        <h1 className="text-3xl font-bold mt-5 mb-10">Upskilling Opportunities</h1>
+        {/* Page heading */}
+        <header className="bg-gray-50 py-8">
+          <div className="max-w-7xl flex flex-col justify-end items-end mx-auto px-4 sm:px-6 lg:px-8 xl:flex xl:items-start xl:justify-start">
+            <div className="flex w-full items-center mb-4 md:max-w-3xl md:mx-auto lg:mx-0 xl:px-0">
+              <div className="w-full">
+                <label htmlFor="search" className="sr-only">
+                  Search
+                </label>
+                <div className="relative">
+                  <div className="pointer-events-none absolute inset-y-0 left-0 pl-3 flex items-center">
+                    <SearchIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
+                  </div>
+                  <input
+                    id="search"
+                    name="search"
+                    className="block w-full bg-white border border-gray-300 rounded-md py-2 pl-10 pr-3 text-sm placeholder-gray-500 focus:outline-none focus:text-gray-900 focus:placeholder-gray-400 sm:text-sm"
+                    placeholder="Search"
+                    type="search"
+                  />
                 </div>
-                <input
-                  id="search"
-                  name="search"
-                  className="block w-full bg-white border border-gray-300 rounded-md py-2 pl-10 pr-3 text-sm placeholder-gray-500 focus:outline-none focus:text-gray-900 focus:placeholder-gray-400 sm:text-sm"
-                  placeholder="Search"
-                  type="search"
-                />
               </div>
             </div>
+            <Menu as="div" className="relative inline-block text-left">
+              <div>
+                <Menu.Button className="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none">
+                  Sort By Relevance
+                  <ChevronDownIcon className="-mr-1 ml-2 h-5 w-5" aria-hidden="true" />
+                </Menu.Button>
+              </div>
+
+              <Transition
+                as={Fragment}
+                enter="transition ease-out duration-100"
+                enterFrom="transform opacity-0 scale-95"
+                enterTo="transform opacity-100 scale-100"
+                leave="transition ease-in duration-75"
+                leaveFrom="transform opacity-100 scale-100"
+                leaveTo="transform opacity-0 scale-95"
+              >
+                <Menu.Items className="origin-top-right absolute z-10 right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
+                  <div className="py-1">
+                    <Menu.Item>
+                      {({ active }) => (
+                        <a
+                          href="#"
+                          className={classNames(
+                            active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
+                            'block px-4 py-2 text-sm'
+                          )}
+                        >
+                          Date
+                        </a>
+                      )}
+                    </Menu.Item>
+                    <Menu.Item>
+                      {({ active }) => (
+                        <a
+                          href="#"
+                          className={classNames(
+                            active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
+                            'block px-4 py-2 text-sm'
+                          )}
+                        >
+                          Title
+                        </a>
+                      )}
+                    </Menu.Item>
+                    <Menu.Item>
+                      {({ active }) => (
+                        <a
+                          href="#"
+                          className={classNames(
+                            active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
+                            'block px-4 py-2 text-sm'
+                          )}
+                        >
+                          Category
+                        </a>
+                      )}
+                    </Menu.Item>
+                  </div>
+                </Menu.Items>
+              </Transition>
+            </Menu>
           </div>
-          <Menu as="div" className="relative inline-block text-left">
-            <div>
-              <Menu.Button className="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none">
-                Sort By Relevance
-                <ChevronDownIcon className="-mr-1 ml-2 h-5 w-5" aria-hidden="true" />
-              </Menu.Button>
-            </div>
+        </header>
 
-            <Transition
-              as={Fragment}
-              enter="transition ease-out duration-100"
-              enterFrom="transform opacity-0 scale-95"
-              enterTo="transform opacity-100 scale-100"
-              leave="transition ease-in duration-75"
-              leaveFrom="transform opacity-100 scale-100"
-              leaveTo="transform opacity-0 scale-95"
+        <main className="pt-8 pb-16">
+          <div className="max-w-7xl mx-auto">
+            <ul
+              role="list"
+              className="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 sm:gap-x-6 lg:grid-cols-4 xl:gap-x-8"
             >
-              <Menu.Items className="origin-top-right absolute z-10 right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
-                <div className="py-1">
-                  <Menu.Item>
-                    {({ active }) => (
-                      <a
-                        href="#"
-                        className={classNames(
-                          active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                          'block px-4 py-2 text-sm'
-                        )}
-                      >
-                        Date
-                      </a>
-                    )}
-                  </Menu.Item>
-                  <Menu.Item>
-                    {({ active }) => (
-                      <a
-                        href="#"
-                        className={classNames(
-                          active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                          'block px-4 py-2 text-sm'
-                        )}
-                      >
-                        Title
-                      </a>
-                    )}
-                  </Menu.Item>
-                  <Menu.Item>
-                    {({ active }) => (
-                      <a
-                        href="#"
-                        className={classNames(
-                          active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                          'block px-4 py-2 text-sm'
-                        )}
-                      >
-                        Category
-                      </a>
-                    )}
-                  </Menu.Item>
-                </div>
-              </Menu.Items>
-            </Transition>
-          </Menu>
-        </div>
-      </header>
-
-      <main className="pt-8 pb-16">
-        <div className="max-w-7xl mx-auto">
-          <ul
-            role="list"
-            className="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 sm:gap-x-6 lg:grid-cols-4 xl:gap-x-8"
-          >
-            {files.map((file) => (
-              <li key={file.source} className="relative">
-                <div className="group block w-full aspect-w-10 aspect-h-7 rounded-lg bg-gray-100 focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-offset-gray-100 focus-within:ring-indigo-500 overflow-hidden">
-                  <img
-                    src={file.source}
-                    alt=""
-                    className="object-cover pointer-events-none group-hover:opacity-75"
-                  />
-                  <button type="button" className="absolute inset-0 focus:outline-none">
-                    <span className="sr-only">View details for {file.title}</span>
-                  </button>
-                </div>
-                <div className="flex mt-1">
-                  {[...Array(file.stars)].map((star, index) => (
-                    <StarIcon key={index} className="text-yellow-300 h-6"></StarIcon>
-                  ))}
-                  {[...Array(5 - file.stars)].map((star, index) => (
-                    <StarIcon key={index} className="text-gray-300 h-6"></StarIcon>
-                  ))}
-                </div>
-                <p className="mt-2 block text-sm font-medium text-gray-900 truncate pointer-events-none">
-                  {file.title}
-                </p>
-                <p className="block text-sm font-normal text-gray-500 py-2 pointer-events-none">
-                  {file.reviews} Reviews
-                </p>
-                <p className="block text-sm font-normal text-gray-600 pointer-events-none">
-                  {file.description}
-                </p>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </main>
-    </Layout>
-  );
+              {files.map((file) => (
+                <li key={file.source} className="relative">
+                  <div className="group block w-full aspect-w-10 aspect-h-7 rounded-lg bg-gray-100 focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-offset-gray-100 focus-within:ring-indigo-500 overflow-hidden">
+                    <img
+                      src={file.source}
+                      alt=""
+                      className="object-cover pointer-events-none group-hover:opacity-75"
+                    />
+                    <button type="button" className="absolute inset-0 focus:outline-none">
+                      <span className="sr-only">View details for {file.title}</span>
+                    </button>
+                  </div>
+                  <div className="flex mt-1">
+                    {[...Array(file.stars)].map((star, index) => (
+                      <StarIcon key={index} className="text-yellow-300 h-6"></StarIcon>
+                    ))}
+                    {[...Array(5 - file.stars)].map((star, index) => (
+                      <StarIcon key={index} className="text-gray-300 h-6"></StarIcon>
+                    ))}
+                  </div>
+                  <p className="mt-2 block text-sm font-medium text-gray-900 truncate pointer-events-none">
+                    {file.title}
+                  </p>
+                  <p className="block text-sm font-normal text-gray-500 py-2 pointer-events-none">
+                    {file.reviews} Reviews
+                  </p>
+                  <p className="block text-sm font-normal text-gray-600 pointer-events-none">
+                    {file.description}
+                  </p>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </main>
+      </Layout>
+    );
+  } else {
+    return null;
+  }
 }
