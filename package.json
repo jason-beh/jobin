@@ -20,6 +20,8 @@
     "dotenv": "16.0.0",
     "firebase": "^9.6.10",
     "formik": "^2.2.9",
+    "googleapis": "^99.0.0",
+    "iso-639-1": "^2.1.13",
     "next": "12.1.0",
     "next-auth": "3.27.3",
     "next-connect": "^0.12.2",
@@ -29,6 +31,7 @@
     "react-firebase-hooks": "^5.0.3",
     "react-phone-number-input": "^3.1.49",
     "react-select": "^5.2.2",
+    "react-speech-recognition": "^3.9.0",
     "react-video-recorder": "^3.19.1",
     "styled-components": "^5.3.5",
     "yup": "^0.32.11"

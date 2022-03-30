@@ -28,7 +28,7 @@ export default async function handler(req, res) {
 
     // Delete from Cloudinary
     await cloudinary.uploader.destroy(previousPublicId, function (result) {
-      console.log(result);
+      // console.log(result);
     });
 
     // Update profile with new video

@@ -11,6 +11,7 @@ import CreatableSelect from 'react-select/creatable';
 import * as Yup from 'yup';
 import Notification from '../components/Notification';
 import VideoRecorder from 'react-video-recorder';
+import Record from '../components/Record';
 
 const subNavigation = [{ name: 'Profile', href: '#', icon: UserCircleIcon, current: true }];
 
@@ -45,7 +46,7 @@ export default function Profile() {
 
     if (!loading && session) {
       let userData = session.dbUser;
-      console.log(userData);
+      // console.log(userData);
 
       setProfileImage(userData.image || '/images/user-placeholder.jpeg');
       // console.log(session);
@@ -363,6 +364,12 @@ export default function Profile() {
                             <div>
                               <label className="block text-sm font-medium text-gray-700 mt-2 sm:mt-px sm:pt-2">
                                 Short Description
+                                <Record
+                                  setTranslatedText={setTranslatedText}
+                                  setDisplayText={setDisplayText}
+                                  setHelpData={setProfileData}
+                                  helpData={profileData}
+                                />
                                 {displayText != '' ? (
                                   <>
                                     <label
