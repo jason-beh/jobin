@@ -9,8 +9,9 @@ export default function App({ Component, pageProps }) {
   });
 
   const name = 'Jobin';
-  const description = 'Insert Description Here';
-  const url = 'https://jobin-my.vercel.app/';
+  const description =
+    'Jobin is a platform to help disabled people to find jobs using AI services and chatbots.';
+  const url = 'https://jobin-ieee.vercel.app/';
   const image = '/images/meta-image.png';
 
   return (
